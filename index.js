@@ -1355,3 +1355,31 @@ function Deserialize2(s) {
 }
 // console.log(Serialize2(node1));
 // console.log(Deserialize2(Serialize2(node1)))
+
+/**
+ * 在二叉树中找到两个节点的最近公共祖先
+ * @param {TreeNode} root 节点类
+ * @param {Number} o1 节点值
+ * @param {Number} o2 节点值
+ * @return {Number} 返回 o1 和 o2 最近公共祖先的节点
+ */
+function lowestCommonAncestor(root, o1, o2) {
+  // 叶子节点返回
+  if (root === null) {
+    return null;
+  }
+  // 1.o1 o2 其中一个是根节点
+  if (root.val === o1 || root.val === o2) {
+    return root.val;
+  }
+  // 递归
+  let left = lowestCommonAncestor(root.left, o1, o2);
+  let right = lowestCommonAncestor(root.right, o1, o2);
+  // 2.o1 o2 分列根节点两侧
+  if ((left !== null) & (right !== null)) {
+    return root.val;
+  }
+  // 3.o1 o2 都在左侧或右侧
+  return left !== null ? left : right;
+}
+
