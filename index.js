@@ -1209,9 +1209,34 @@ function levelOrderTraversal(root) {
 // console.log("levelOrderTraversal", levelOrderTraversal(node1));
 
 /**
+ * 重建二叉树
+ */
+function getBinaryTree(preorder, inorder) {
+  function ListNode(val) {
+    this.left = null;
+    this.right = null;
+    this.val = val;
+  }
+  if (preorder.length === 0 || inorder.length === 0) {
+    return null;
+  }
+  let rootNode = new ListNode(preorder[0]);
+  let inorderRootNodeIndex = inorder.indexOf(preorder[0]);
+  rootNode.left = getBinaryTree(
+    preorder.slice(1, inorderRootNodeIndex + 1),
+    inorder.slice(0, inorder)
+  );
+  rootNode.right = getBinaryTree(
+    preorder.slice(inorderRootNodeIndex),
+    inorder.slice(inorderRootNodeIndex)
+  );
+  return rootNode;
+}
+
+/**
  * 输出二叉树的右视图
- * @param {Array} preorderTraversal 先序遍历
- * @param {Array} inorderTraversal 中序遍历
+ * @param {Array} preorderTraversal 先序遍历的数组
+ * @param {Array} inorderTraversal 中序遍历的数组
  * @return {Array}
  */
 function exportBinaryTreeRightElevation(preorderTraversal, inorderTraversal) {
@@ -1270,6 +1295,6 @@ function exportBinaryTreeRightElevation(preorderTraversal, inorderTraversal) {
   return ans;
 }
 
-let preorderTraversalArr = preorderTraversal(node1)
-let inorderTraversalArr = inorderTraversal(node1)
+let preorderTraversalArr = preorderTraversal(node1);
+let inorderTraversalArr = inorderTraversal(node1);
 // console.log(exportBinaryTreeRightElevation(preorderTraversalArr,inorderTraversalArr))
