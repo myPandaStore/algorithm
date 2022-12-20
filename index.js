@@ -1112,8 +1112,8 @@ let node7 = new TreeNode(7);
 
 node1.left = node2;
 node1.right = node3;
-node2.left = node4;
-node2.right = node5;
+// node2.left = node4;
+// node2.right = node5;
 node3.left = node6;
 node3.right = node7;
 
@@ -1188,7 +1188,7 @@ function inorderTraversal(root) {
 // console.log("inorderTraversal", inorderTraversal(node1));
 
 /**
- * 层序遍历
+ * 层序遍历(递归)
  */
 function levelOrderTraversal(root) {
   let arr = [];
@@ -1298,3 +1298,60 @@ function exportBinaryTreeRightElevation(preorderTraversal, inorderTraversal) {
 let preorderTraversalArr = preorderTraversal(node1);
 let inorderTraversalArr = inorderTraversal(node1);
 // console.log(exportBinaryTreeRightElevation(preorderTraversalArr,inorderTraversalArr))
+
+/**
+ * 序列化二叉树(辅助栈)
+ */
+const sign2 = "~"; // 占位
+const delimiter2 = ",";
+function Serialize2(root) {
+  if (root === null) {
+    return "";
+  }
+  let stack = [root];
+  let res = [];
+  const emtyNode = new TreeNode(sign2);
+  while (stack.length) {
+    let curNode = stack.shift();
+    res.push(curNode.val);
+    if (curNode === emtyNode) {
+      continue;
+    }
+    if (curNode.left) {
+      stack.push(curNode.left);
+    } else {
+      stack.push(emtyNode);
+    }
+    if (curNode.right) {
+      stack.push(curNode.right);
+    } else {
+      stack.push(emtyNode);
+    }
+  }
+  return res.join(delimiter);
+}
+
+function Deserialize2(s) {
+  if (!s) {
+    return null;
+  }
+  s = s.split(",");
+  let rootNode = new TreeNode(s[0]);
+  let queue = [rootNode];
+  for (let i = 1; i < s.length; i += 2) {
+    let curNode = queue.shift();
+    let leftNode = s[i];
+    let rightNode = s[i + 1];
+    if (leftNode !== sign) {
+      curNode.left = new TreeNode(leftNode);
+      queue.push(curNode.left);
+    }
+    if (rightNode !== sign) {
+      curNode.right = new TreeNode(rightNode);
+      queue.push(curNode.right);
+    }
+  }
+  return rootNode;
+}
+// console.log(Serialize2(node1));
+// console.log(Deserialize2(Serialize2(node1)))
