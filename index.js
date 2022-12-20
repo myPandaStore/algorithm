@@ -1383,3 +1383,60 @@ function lowestCommonAncestor(root, o1, o2) {
   return left !== null ? left : right;
 }
 
+/**
+ * 判断是不是平衡二叉树
+ */
+function isBanlancedTree(pRoot) {
+  if (!pRoot) {
+    return true;
+  }
+  let leftDepth = getDepthOfBinaryTree(pRoot.left);
+  let rightDepth = getDepthOfBinaryTree(pRoot.right);
+  if (Math.abs(leftDepth - rightDepth) > 1) {
+    return false;
+  } else {
+    return isBanlancedTree(pRoot.left) && isBanlancedTree(pRoot.right);
+  }
+}
+
+/**
+ *获取二叉树的深度
+ * @param {*} root
+ * @returns {Number}
+ */
+function getDepthOfBinaryTree(root) {
+  if (root === null) {
+    return 0;
+  }
+  // 获取左子树的深度
+  let leftDepth = getDepthOfBinaryTree(root.left);
+  // 获取右子树的深度
+  let rightDepth = getDepthOfBinaryTree(root.right);
+  // 根节点加一层深度
+  return Math.max(leftDepth, rightDepth) + 1;
+}
+
+function isBanlancedTree2(pRoot) {
+  if (!pRoot) {
+    return true;
+  }
+  let leftDepth = getDepthOfBinaryTree2(pRoot.left);
+  let rightDepth = getDepthOfBinaryTree2(pRoot.right);
+  if (Math.abs(leftDepth - rightDepth) > 1) {
+    return false;
+  } else {
+    return isBanlancedTree2(pRoot.left) && isBanlancedTree2(pRoot.right);
+  }
+}
+
+function getDepthOfBinaryTree2(root) {
+  if (!root) {
+    return 0;
+  }
+  let leftDepth = getDepthOfBinaryTree2(root.left);
+  let rightDepth = getDepthOfBinaryTree2(root.right);
+  return Math.max(leftDepth, rightDepth) + 1;
+}
+console.log(node1)
+console.log(getDepthOfBinaryTree(node1))
+console.log(isBanlancedTree(node1))
