@@ -776,84 +776,6 @@ function minMoney2(arr, aim) {
 }
 
 /**
- * 二叉树的后序遍历
- */
-function TreeNode(x) {
-  this.val = x;
-  this.left = null;
-  this.right = null;
-}
-
-let node1 = new TreeNode(1);
-let node2 = new TreeNode(2);
-let node3 = new TreeNode(3);
-
-node1.right = node2;
-node2.left = node3;
-
-// 1.辅助栈（后序遍历： 左 => 右 => 根）
-function posterTraversal(root) {
-  let stack = [],
-    res = [];
-  while (stack.length || root) {
-    if (root !== null) {
-      stack.push(root);
-      root = root.left;
-    } else {
-      root = root.right;
-      root = stack.pop();
-      res.push(root.val);
-    }
-  }
-  return res;
-}
-function posterTraversal(root) {
-  let stack = [],
-    res = [];
-  while (stack.length || root) {
-    if (root !== null) {
-      stack.push(root);
-      root = root.left;
-    } else {
-      root = root.right;
-      root = stack.pop();
-      res.push(root.val);
-    }
-  }
-}
-
-// console.log(posterTraversal2(node1));
-
-// 2.递归实现（后序遍历： 左 => 右 => 根）
-function posterTraversal2(root) {
-  let res = [];
-  traversal(root, res);
-  return res;
-}
-function traversal(node, res) {
-  if (!node) {
-    return;
-  }
-  traversal(node.left, res);
-  traversal(node.right, res);
-  res.push(node.val);
-}
-
-function posterTraversal3(root) {
-  let res = [];
-  traversal2(root, res);
-  return res;
-}
-function traversal2(node, res) {
-  if (!node) {
-    return;
-  }
-  traversal2(node.left, res);
-  traversal2(node.right, res);
-  res.push(node.val);
-}
-
-/**
  * 把数字翻译成字符串
  * @param {String}
  * @return {Number}
@@ -1080,7 +1002,7 @@ function generateParenthesis2(n) {
   dfs(n, n, "");
   return res;
 }
-console.log(generateParenthesis(3));
+// console.log(generateParenthesis(3));
 
 /**
  * 表达式求值
@@ -1171,15 +1093,183 @@ function getMedian() {
   }
 }
 
-let insertArr2 = [1,3,4];
-function insert2(num) {
-  let i = 0;
-  while (insertArr2[i] < num) {
-    i++;
-  }
-  insertArr2.splice(i, 0, num);
-  return insertArr2
+/**
+ * 二叉树的后序遍历
+ */
+function TreeNode(x) {
+  this.val = x;
+  this.left = null;
+  this.right = null;
 }
 
+let node1 = new TreeNode(1);
+let node2 = new TreeNode(2);
+let node3 = new TreeNode(3);
+let node4 = new TreeNode(4);
+let node5 = new TreeNode(5);
+let node6 = new TreeNode(6);
+let node7 = new TreeNode(7);
 
-console.log(insert2(2))
+node1.left = node2;
+node1.right = node3;
+node2.left = node4;
+node2.right = node5;
+node3.left = node6;
+node3.right = node7;
+
+// console.log(node1, "node1");
+// 1.辅助栈（后序遍历： 左 => 右 => 根）
+function posterTraversal(root) {
+  let stack = [],
+    res = [];
+  while (stack.length || root) {
+    if (root !== null) {
+      stack.push(root);
+      root = root.left;
+    } else {
+      root = root.right;
+      root = stack.pop();
+      res.push(root.val);
+    }
+  }
+  return res;
+}
+// console.log("posterTraversal", posterTraversal2(node1));
+
+// 2.递归实现（后序遍历： 左 => 右 => 根）
+function posterTraversal2(root) {
+  function traversal(node, res) {
+    if (!node) {
+      return;
+    }
+    traversal(node.left, res);
+    traversal(node.right, res);
+    res.push(node.val);
+  }
+  let res = [];
+  traversal(root, res);
+  return res;
+}
+
+/**
+ * 先序遍历
+ */
+function preorderTraversal(root) {
+  function traversal(node, res) {
+    if (!node) {
+      return;
+    }
+    res.push(node.val);
+    traversal(node.left, res);
+    traversal(node.right, res);
+  }
+  let res = [];
+  traversal(root, res);
+  return res;
+}
+// console.log("preorderTraversal", preorderTraversal(node1));
+
+/**
+ * 中序遍历
+ */
+function inorderTraversal(root) {
+  function traversal(node, res) {
+    if (!node) {
+      return;
+    }
+    traversal(node.left, res);
+    res.push(node.val);
+    traversal(node.right, res);
+  }
+  let res = [];
+  traversal(root, res);
+  return res;
+}
+// console.log("inorderTraversal", inorderTraversal(node1));
+
+/**
+ * 层序遍历
+ */
+function levelOrderTraversal(root) {
+  let arr = [];
+  function traversal(node, arr, level) {
+    if (node === null) {
+      return;
+    }
+    if (arr[level] === undefined) {
+      arr[level] = [];
+    }
+    arr[level].push(node.val);
+    traversal(node.left, arr, level + 1);
+    traversal(node.right, arr, level + 1);
+  }
+  traversal(root, arr, 0);
+  return arr;
+}
+// console.log("levelOrderTraversal", levelOrderTraversal(node1));
+
+/**
+ * 输出二叉树的右视图
+ * @param {Array} preorderTraversal 先序遍历
+ * @param {Array} inorderTraversal 中序遍历
+ * @return {Array}
+ */
+function exportBinaryTreeRightElevation(preorderTraversal, inorderTraversal) {
+  // 1.节点的构造函数
+  function ListNode(val) {
+    this.left = null;
+    this.right = null;
+    this.val = val;
+  }
+
+  // 2.根据先序遍历和后序遍历重构二叉树
+  function getBinaryTree(preorder, inorder) {
+    if (preorder.length === 0 || inorder === 0) {
+      return null;
+    }
+    // 先序遍历第一个值一定是二叉树的根节点
+    let rootNode = new ListNode(preorder[0]);
+    let inorderRootNodeIndex = inorder.indexOf(preorder[0]);
+    // 递归
+    rootNode.left = getBinaryTree(
+      preorder.slice(1, inorderRootNodeIndex + 1),
+      inorder.slice(0, inorderRootNodeIndex)
+    );
+    rootNode.right = getBinaryTree(
+      preorder.slice(inorderRootNodeIndex + 1),
+      inorder.slice(inorderRootNodeIndex + 1)
+    );
+    return rootNode;
+  }
+
+  // 3.层序遍历输出二叉树的右视图
+  function levelOrderTraversal(root) {
+    let arr = [];
+    function traversal(root, arr, level) {
+      if (root === null) {
+        return;
+      }
+      if (arr[level] === undefined) {
+        arr[level] = [];
+      }
+      arr[level].push(root.val);
+      traversal(root.left, arr, level + 1);
+      traversal(root.right, arr, level + 1);
+    }
+    traversal(root, arr, 0);
+    return arr;
+  }
+
+  // 4.输出二叉树的右视图
+  let ans = [];
+  let tree = getBinaryTree(preorderTraversal, inorderTraversal);
+  let arr = levelOrderTraversal(tree);
+  arr.forEach((item) => {
+    ans.push(item[item.length - 1]);
+  });
+  return ans;
+}
+
+let preorderTraversalArr = preorderTraversal(node1)
+let inorderTraversalArr = inorderTraversal(node1)
+// console.log(exportBinaryTreeRightElevation(preorderTraversalArr,inorderTraversalArr))
