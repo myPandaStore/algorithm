@@ -1496,9 +1496,33 @@ function isCompleteTree(root) {
 }
 
 /**
- * 
+ * 判断是不是二叉搜索树
  * @param {*} root 
+ * @return {Boolean}
  */
-function isValidBST(root) {
 
+// 1.二叉搜索树中序遍历的结果是递增
+function isValidBST(root) {
+ let inorderArr = inorderTraversal(root)
+//  console.log(inorderTraversal)
+ console.log('inorderArr',inorderArr)
+ for(let i = 0; i < inorderArr.length; i++) {
+  if (inorderArr[i] > inorderArr[i + 1]) {
+    return false
+  }
+ }
+ return true
+}
+
+// 2.递归
+function isValidBST2(root) {
+  function fun(root, lower, upper) {
+    if (root === null) {
+      return true
+    } else if (root.val <= lower || root.val >= upper) {
+      return false  
+    }
+    return fun(root.left, lower, root.val) && fun(root.right, root.val, upper)
+  }
+  return fun(root, -Infinity, Infinity)
 }
