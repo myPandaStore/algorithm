@@ -1214,8 +1214,32 @@ function levelOrderTraversal(root) {
   traversal(root, arr, 0);
   return arr;
 }
-// console.log("levelOrderTraversal", levelOrderTraversal(node1));
 
+/**
+ * 层序遍历(广度优先搜索)
+ * @param {*} root 
+ * @return {Array}
+ */
+function levelOrderTraversal2(root) {
+  if (!root) {
+    return []
+  }
+  // 创建队列，根节点入列
+  let queue = [root]
+  let res = []
+  while (queue.length) {
+    // 获取根节点，根节点出列
+    const curNode = queue.shift()
+    // 访问队头
+    res.push(curNode.val)
+    // 队头的子节点依次入队
+    curNode.left && queue.push(curNode.left)
+    curNode.right && queue.push(curNode.right)
+  }
+  return res
+}
+// console.log("levelOrderTraversal", levelOrderTraversal(node1));
+// console.log(levelOrderTraversal2(node1))
 /**
  * 重建二叉树
  */
@@ -1313,7 +1337,6 @@ let inorderTraversalArr = inorderTraversal(node1);
  */
 const sign2 = "~"; // 占位
 const delimiter2 = ",";
-
 function Serialize2(root) {
   if (root === null) {
     return "";
@@ -1386,7 +1409,7 @@ function lowestCommonAncestor(root, o1, o2) {
   let left = lowestCommonAncestor(root.left, o1, o2);
   let right = lowestCommonAncestor(root.right, o1, o2);
   // 2.o1 o2 分列根节点两侧
-  if ((left !== null) & (right !== null)) {
+  if ((left !== null) && (right !== null)) {
     return root.val;
   }
   // 3.o1 o2 都在左侧或右侧
@@ -1470,4 +1493,12 @@ function isCompleteTree(root) {
     }
   }
   return true
+}
+
+/**
+ * 
+ * @param {*} root 
+ */
+function isValidBST(root) {
+
 }
