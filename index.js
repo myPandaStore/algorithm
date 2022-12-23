@@ -15,6 +15,7 @@ function ReverseList(pHead) {
   }
   return pre;
 }
+
 function ReverseList2(pHead) {
   let pre = null,
     cur = pHead;
@@ -26,6 +27,7 @@ function ReverseList2(pHead) {
   }
   return pre;
 }
+
 function ReverseList3(pHead) {
   let pre = null,
     cur = pHead;
@@ -114,6 +116,7 @@ function maxWater(arr) {
   }
   return res;
 }
+
 function maxWater2(arr) {
   let res = 0;
   if (arr.length < 3) {
@@ -141,6 +144,7 @@ function maxWater2(arr) {
  *  @ return int整型
  */
 start = new Date();
+
 function maxArea(height) {
   let res = 0,
     len = height.length;
@@ -311,6 +315,7 @@ function minWindow2(S, T) {
   }
   return res;
 }
+
 function minWindow3(S, T) {
   let lens = S.length;
   let lent = T.length;
@@ -427,6 +432,7 @@ function rob(nums) {
   }
   return dp1[len - 1] > dp2[len - 1] ? dp1[len - 1] : dp2[len - 1];
 }
+
 function rob2(nums) {
   let len = nums.length;
   // 1.
@@ -1076,6 +1082,7 @@ function calc(op, b, a) {
  * @return {Number}
  */
 let insertArr = [];
+
 function Insert(num) {
   let i = 0;
   while (insertArr[i] < num) {
@@ -1192,6 +1199,7 @@ function inorderTraversal(root) {
  */
 function levelOrderTraversal(root) {
   let arr = [];
+
   function traversal(node, arr, level) {
     if (node === null) {
       return;
@@ -1270,6 +1278,7 @@ function exportBinaryTreeRightElevation(preorderTraversal, inorderTraversal) {
   // 3.层序遍历输出二叉树的右视图
   function levelOrderTraversal(root) {
     let arr = [];
+
     function traversal(root, arr, level) {
       if (root === null) {
         return;
@@ -1304,6 +1313,7 @@ let inorderTraversalArr = inorderTraversal(node1);
  */
 const sign2 = "~"; // 占位
 const delimiter2 = ",";
+
 function Serialize2(root) {
   if (root === null) {
     return "";
@@ -1437,6 +1447,27 @@ function getDepthOfBinaryTree2(root) {
   let rightDepth = getDepthOfBinaryTree2(root.right);
   return Math.max(leftDepth, rightDepth) + 1;
 }
-console.log(node1)
-console.log(getDepthOfBinaryTree(node1))
-console.log(isBanlancedTree(node1))
+
+/**
+ * 判断是不是完全二叉树
+ * @param {*} root 
+ * @return {Boolean}
+ */
+function isCompleteTree(root) {
+  // 辅助栈
+  let queue = [root]
+  let end = false
+  while (queue.length) {
+    const curNode = queue.shift()
+    if (!curNode) {
+      end = true
+    } else {
+      if (queue.length && end) {
+        return false
+      }
+      queue.push(curNode.left)
+      queue.push(curNode.right)
+    }
+  }
+  return true
+}
