@@ -1415,28 +1415,3 @@ function getDepthOfBinaryTree(root) {
   // 根节点加一层深度
   return Math.max(leftDepth, rightDepth) + 1;
 }
-
-function isBanlancedTree2(pRoot) {
-  if (!pRoot) {
-    return true;
-  }
-  let leftDepth = getDepthOfBinaryTree2(pRoot.left);
-  let rightDepth = getDepthOfBinaryTree2(pRoot.right);
-  if (Math.abs(leftDepth - rightDepth) > 1) {
-    return false;
-  } else {
-    return isBanlancedTree2(pRoot.left) && isBanlancedTree2(pRoot.right);
-  }
-}
-
-function getDepthOfBinaryTree2(root) {
-  if (!root) {
-    return 0;
-  }
-  let leftDepth = getDepthOfBinaryTree2(root.left);
-  let rightDepth = getDepthOfBinaryTree2(root.right);
-  return Math.max(leftDepth, rightDepth) + 1;
-}
-console.log(node1)
-console.log(getDepthOfBinaryTree(node1))
-console.log(isBanlancedTree(node1))
