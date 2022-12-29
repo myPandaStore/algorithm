@@ -15,6 +15,7 @@ function ReverseList(pHead) {
   }
   return pre;
 }
+
 function ReverseList2(pHead) {
   let pre = null,
     cur = pHead;
@@ -26,6 +27,7 @@ function ReverseList2(pHead) {
   }
   return pre;
 }
+
 function ReverseList3(pHead) {
   let pre = null,
     cur = pHead;
@@ -114,6 +116,7 @@ function maxWater(arr) {
   }
   return res;
 }
+
 function maxWater2(arr) {
   let res = 0;
   if (arr.length < 3) {
@@ -141,6 +144,7 @@ function maxWater2(arr) {
  *  @ return int整型
  */
 start = new Date();
+
 function maxArea(height) {
   let res = 0,
     len = height.length;
@@ -311,6 +315,7 @@ function minWindow2(S, T) {
   }
   return res;
 }
+
 function minWindow3(S, T) {
   let lens = S.length;
   let lent = T.length;
@@ -427,6 +432,7 @@ function rob(nums) {
   }
   return dp1[len - 1] > dp2[len - 1] ? dp1[len - 1] : dp2[len - 1];
 }
+
 function rob2(nums) {
   let len = nums.length;
   // 1.
@@ -1076,6 +1082,7 @@ function calc(op, b, a) {
  * @return {Number}
  */
 let insertArr = [];
+
 function Insert(num) {
   let i = 0;
   while (insertArr[i] < num) {
@@ -1192,6 +1199,7 @@ function inorderTraversal(root) {
  */
 function levelOrderTraversal(root) {
   let arr = [];
+
   function traversal(node, arr, level) {
     if (node === null) {
       return;
@@ -1206,8 +1214,32 @@ function levelOrderTraversal(root) {
   traversal(root, arr, 0);
   return arr;
 }
-// console.log("levelOrderTraversal", levelOrderTraversal(node1));
 
+/**
+ * 层序遍历(广度优先搜索)
+ * @param {*} root
+ * @return {Array}
+ */
+function levelOrderTraversal2(root) {
+  if (!root) {
+    return [];
+  }
+  // 创建队列，根节点入列
+  let queue = [root];
+  let res = [];
+  while (queue.length) {
+    // 获取根节点，根节点出列
+    const curNode = queue.shift();
+    // 访问队头
+    res.push(curNode.val);
+    // 队头的子节点依次入队
+    curNode.left && queue.push(curNode.left);
+    curNode.right && queue.push(curNode.right);
+  }
+  return res;
+}
+// console.log("levelOrderTraversal", levelOrderTraversal(node1));
+// console.log(levelOrderTraversal2(node1))
 /**
  * 重建二叉树
  */
@@ -1270,6 +1302,7 @@ function exportBinaryTreeRightElevation(preorderTraversal, inorderTraversal) {
   // 3.层序遍历输出二叉树的右视图
   function levelOrderTraversal(root) {
     let arr = [];
+
     function traversal(root, arr, level) {
       if (root === null) {
         return;
@@ -1376,7 +1409,7 @@ function lowestCommonAncestor(root, o1, o2) {
   let left = lowestCommonAncestor(root.left, o1, o2);
   let right = lowestCommonAncestor(root.right, o1, o2);
   // 2.o1 o2 分列根节点两侧
-  if ((left !== null) & (right !== null)) {
+  if (left !== null && right !== null) {
     return root.val;
   }
   // 3.o1 o2 都在左侧或右侧
@@ -1414,4 +1447,121 @@ function getDepthOfBinaryTree(root) {
   let rightDepth = getDepthOfBinaryTree(root.right);
   // 根节点加一层深度
   return Math.max(leftDepth, rightDepth) + 1;
+}
+
+function isBanlancedTree2(pRoot) {
+  if (!pRoot) {
+    return true;
+  }
+  let leftDepth = getDepthOfBinaryTree2(pRoot.left);
+  let rightDepth = getDepthOfBinaryTree2(pRoot.right);
+  if (Math.abs(leftDepth - rightDepth) > 1) {
+    return false;
+  } else {
+    return isBanlancedTree2(pRoot.left) && isBanlancedTree2(pRoot.right);
+  }
+}
+
+function getDepthOfBinaryTree2(root) {
+  if (!root) {
+    return 0;
+  }
+  let leftDepth = getDepthOfBinaryTree2(root.left);
+  let rightDepth = getDepthOfBinaryTree2(root.right);
+  return Math.max(leftDepth, rightDepth) + 1;
+}
+
+/**
+ * 判断是不是完全二叉树
+ * @param {*} root
+ * @return {Boolean}
+ */
+function isCompleteTree(root) {
+  // 辅助栈
+  let queue = [root];
+  let end = false;
+  while (queue.length) {
+    const curNode = queue.shift();
+    if (!curNode) {
+      end = true;
+    } else {
+      if (queue.length && end) {
+        return false;
+      }
+      queue.push(curNode.left);
+      queue.push(curNode.right);
+    }
+  }
+  return true;
+}
+
+/**
+ * 判断是不是二叉搜索树
+ * @param {*} root
+ * @return {Boolean}
+ */
+
+// 1.二叉搜索树中序遍历的结果是递增
+function isValidBST(root) {
+  let inorderArr = inorderTraversal(root);
+  //  console.log(inorderTraversal)
+  console.log("inorderArr", inorderArr);
+  for (let i = 0; i < inorderArr.length; i++) {
+    if (inorderArr[i] > inorderArr[i + 1]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+// 2.递归
+function isValidBST2(root) {
+  function fun(root, lower, upper) {
+    if (root === null) {
+      return true;
+    } else if (root.val <= lower || root.val >= upper) {
+      return false;
+    }
+    return fun(root.left, lower, root.val) && fun(root.right, root.val, upper);
+  }
+  return fun(root, -Infinity, Infinity);
+}
+
+/**
+ * 二叉树的镜像
+ * @param {*} pRoot
+ * @return {*} pRoot
+ */
+
+// 1.递归
+function mirror(pRoot) {
+  if (!pRoot) {
+    return pRoot;
+  }
+  // 交换左右子树
+  let temp = pRoot.left;
+  pRoot.left = pRoot.right;
+  pRoot.right = temp;
+  // 递归左右子树
+  mirror(pRoot.left);
+  mirror(pRoot.right);
+  return pRoot;
+}
+
+// 2.辅助栈
+function mirror2(pRoot) {
+  if (!pRoot) {
+    return pRoot;
+  }
+  let stack = [pRoot];
+  while (stack.length) {
+    let node = stack.pop();
+    node.left && stack.push(node.left);
+    node.right && stack.push(node.right);
+
+    let temp = node.left;
+    node.left = node.right;
+    node.right = temp;
+  }
+  return pRoot;
 }
