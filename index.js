@@ -1668,3 +1668,49 @@ function hasPathSum(root, sum) {
   };
   return dfs(root, sum);
 }
+
+/**
+ * 链表节点构造函数
+ * @param {*} x
+ */
+function ListNode(x) {
+  this.val = x;
+  this.next = null;
+}
+
+/**
+ * 删除有序链表中重复的元素-II
+ * @param {*} head
+ */
+function deleteDuplicates(head) {
+  // 1.存储链表的所有节点值
+  let arr = [];
+  while (head) {
+    arr.push(head.val);
+    head = head.next;
+  }
+
+  // 2.1哈希表筛选出不重复的值
+  // let map = new Map()
+  // for (let item of arr) {
+  //   map.set(item, (map.get(item) || 0) + 1)
+  // }
+  // let res = []
+  // for (let [index, item] of map.entries()) {
+  //   if (item === 1) {
+  //     res.push(index)
+  //   }
+  // }
+
+  // 2.2 利用 set 去重
+  let res = Array.from(new Set(arr));
+
+  // 3.遍历筛选出来的值生成链表
+  let node = new ListNode(-1);
+  let pre = node;
+  for (let item of res) {
+    node.next = new ListNode(item);
+    node = node.next;
+  }
+  return pre.next;
+}
