@@ -1746,3 +1746,52 @@ function oddEvenList(head) {
   last_odd.next = head_even.next;
   return head_odd.next;
 }
+
+/**
+ * 判断一个链表是否是回文结构
+ * @param {*} head
+ * @return {Boolean}
+ */
+
+// 1.反转链表
+function isPail(head) {
+  let reHead = reverse(head);
+  while (head && reHead) {
+    if (head.val !== reHead.val) {
+      return false;
+    }
+    head = head.next;
+    reHead = reHead.next;
+  }
+  return true;
+}
+
+function reverse(head) {
+  if (!head || !head.next) {
+    return head;
+  }
+  let pre = null,
+    cur = head;
+  while (cur) {
+    let next = cur.next;
+    cur.next = pre;
+    pre = cur;
+    cur = next;
+  }
+  return pre;
+}
+
+// 2.收集节点值
+function isPail2(head) {
+  let valArr = [];
+  while (head) {
+    valArr.push(head.val);
+    head = head.next;
+  }
+  for (let i = 0, j = valArr.lengt - 1; i < j; i++, j--) {
+    if (valArr[i] !== valArr[j]) {
+      return false;
+    }
+  }
+  return true;
+}
