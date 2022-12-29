@@ -1608,3 +1608,39 @@ function isSymmetrical(pRoot) {
   return recursion(pRoot.left, pRoot.right);
 }
 
+/**
+ * 二叉搜索树与双向链表
+ * @param {*} pRootOfTree
+ * @returns {*} head
+ */
+function convert(pRootOfTree) {
+  // 中序遍历（左 根 右）
+  // 二叉搜索树与双向链表
+  // 1.确定头部节点；最左边的叶子节点
+  // 2.新建一个 head 指向头节点
+  // 3.记录上一节点 pre 和当前节点 cur
+  // 4.遍历时不断更新 pre.right = cur cur.left = pre
+  // 5.遍历时的递归步骤
+  //5.1确定递归结束的条件 （cur === null)
+  //5.2递归左子树
+  //5.3处理当前节点
+  //5.4递归右子树
+  let head = null;
+  let pre = null;
+  const inorder = (cur) => {
+    if (cur === null) {
+      return;
+    }
+    inorder(cur.left);
+    if (pre === null) {
+      head = cur;
+    } else {
+      pre.right = cur;
+    }
+    cur.left = pre;
+    pre = cur;
+    inorder(cur.right);
+  };
+  inorder(pRootOfTree);
+  return head;
+}
