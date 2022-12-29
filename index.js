@@ -1583,3 +1583,28 @@ function mergeTrees(t1, t2) {
   return root;
 }
 
+/**
+ * 对称的二叉树
+ * @param {*} pRoot
+ * @return {Boolean}
+ */
+function isSymmetrical(pRoot) {
+  // 1.根节点都不存在或者只有根节点
+  if (!pRoot || (!pRoot.left && !pRoot.right)) {
+    return true;
+  }
+  // 2.判断根节点左右子树是否对称
+  const recursion = (t1, t2) => {
+    // 2.1左右子树都为空
+    if (t1 === null && t2 === null) {
+      return true;
+    } else if (t1 === null || t2 === null || t1.val !== t2.val) {
+      // 2.2左右子树一个为空或者对应节点值不相等
+      return false;
+    }
+    // 2.3递归
+    return recursion(t1.left, t2.right) && recursion(t1.right, t2.left);
+  };
+  return recursion(pRoot.left, pRoot.right);
+}
+
