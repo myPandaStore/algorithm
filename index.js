@@ -1714,3 +1714,35 @@ function deleteDuplicates(head) {
   }
   return pre.next;
 }
+
+/**
+ * 链表的奇偶重排
+ * @param {*} head
+ */
+function oddEvenList(head) {
+  // 1.分成两个链表
+  let head_odd = new ListNode(-1);
+  let head_even = new ListNode(-1);
+  // 2.保存奇数链表和偶数链表头部
+  let last_odd = head_odd;
+  let last_even = head_even;
+  // 3.用一个变量标记奇偶
+  let i = 1;
+  // 4.遍历链表，分别记住头尾
+  while (head) {
+    if (i % 2 === 1) {
+      last_odd.next = head;
+      last_odd = head;
+    } else {
+      last_even.next = head;
+      last_even = head;
+    }
+    head = head.next;
+    i++;
+  }
+  // 偶数链表尾部的 next 重置为 null
+  last_even.next = null;
+  // 连接奇数链表尾部和偶数链表头部
+  last_odd.next = head_even.next;
+  return head_odd.next;
+}
