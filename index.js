@@ -1644,3 +1644,27 @@ function convert(pRootOfTree) {
   inorder(pRootOfTree);
   return head;
 }
+
+/**
+ * 二叉树中和为某一值的路径（一）
+ * @param {*} root 根节点
+ * @param {Number} sum
+ */
+function hasPathSum(root, sum) {
+  if (!root) {
+    return false;
+  }
+  const dfs = (curNode, sum) => {
+    if (!curNode) {
+      return false;
+    }
+    if (!curNode.left && !curNode.right && curNode.val === sum) {
+      return true;
+    }
+    return (
+      dfs(curNode.left, sum - curNode.val) ||
+      dfs(curNode.right, sum - curNode.val)
+    );
+  };
+  return dfs(root, sum);
+}
